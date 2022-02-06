@@ -12,9 +12,21 @@ const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    );
+    //unneccessary network traffic remove by setTimeout
+    //clear time as long as user keeps on typing and let only last timer run => only one time to complete
+    const identifier = setTimeout(() => {
+      console.log('validity check!!!')
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      );
+    }, 500);
+    
+    //ananomous arrow fun/ clean-up fun; must return a fun
+    return () => {
+      //clear the last timer before setting new one.
+      console.log('cleanup!')
+      clearTimeout(identifier);
+    };
   }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
