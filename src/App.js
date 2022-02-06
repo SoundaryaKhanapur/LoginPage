@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     const storedUserLogInInfo = localStorage.getItem('isLoggedIn');
-    
+
     if (storedUserLogInInfo === '1') setIsLoggedIn(true);
   }, []);
 
@@ -25,6 +25,7 @@ function App() {
   };
 
   const logoutHandler = () => {
+    localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
   };
 
