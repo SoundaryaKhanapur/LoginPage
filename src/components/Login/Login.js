@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
+import AuthContext from '../../store/auth-context';
 
 //defined outside as it does not interact with anything inside the component function.
 const emailReducer = (state, action) => {
@@ -27,7 +28,10 @@ const passwordReducer = (state, action) => {
   return {value: '', isValid: false};
 }
 
-const Login = (props) => {
+const Login = () => {
+
+  const authCtx = useContext(AuthContext)
+
   // const [enteredEmail, setEnteredEmail] = useState('');
   // const [emailIsValid, setEmailIsValid] = useState();
   // const [enteredPassword, setEnteredPassword] = useState('');
@@ -92,8 +96,10 @@ const {isValid: passwordIsValid} = passwordState;
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
+
+  
 
   return (
     <Card className={classes.login}>
