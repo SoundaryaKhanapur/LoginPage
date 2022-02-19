@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useContext } from 'react';
+import React, { useState, useEffect, useReducer, useContext, useRef } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -42,6 +42,9 @@ const Login = () => {
   const [emailState, dispatchEmail] = useReducer(emailReducer, {value: '', isValid: null});
 
   const [passwordState, dispatchPassword] = useReducer(passwordReducer, {value: '', isValid: null});
+
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
 
 //object destructring to pull out certain properties of object
 const {isValid: emailIsValid} = emailState;
@@ -100,9 +103,9 @@ const {isValid: passwordIsValid} = passwordState;
     if (formIsValid) {
       authCtx.onLogin(emailState.value, passwordState.value);
     } else if (!emailIsValid){
-
+        emailInputRef.current.focus();
     }else {
-
+      passwordInputRef.current.focus();
     }
   };
 
@@ -112,6 +115,7 @@ const {isValid: passwordIsValid} = passwordState;
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
        <Input
+       ref={emailInputRef}
        id="email"
        label="E-Mail"
        type="email"
@@ -121,7 +125,8 @@ const {isValid: passwordIsValid} = passwordState;
        onBlur={validateEmailHandler}
        />
         
-          <Input
+       <Input
+       ref={passwordInputRef}
        id="password"
        label="Password"
        type="password"
